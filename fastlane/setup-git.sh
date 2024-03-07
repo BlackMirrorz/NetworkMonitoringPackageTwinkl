@@ -39,7 +39,6 @@ else
     exit 1
 fi
 
-cd Source || { echo "❌ Failed to change directory to Source"; exit 1; }
 
 echo "📁 Changed Directory to: $(pwd)"
 
@@ -90,7 +89,6 @@ fi
 
 echo '🫠  Pre Commit Validation Completed  ✅'
 exit 0
-
 EOF
 
 # Make The Pre-Commit Hook Executable
@@ -113,9 +111,9 @@ cat > "$GIT_IGNORE_SOURCE" << 'EOF'
 # Edit at https://www.toptal.com/developers/gitignore?templates=xcode,macos,swift
 
 ### Fastlane ###
-Source/fastlane/report.xml
-Source/fastlane/README.md
-Source/fastlane/test_output
+fastlane/report.xml
+astlane/README.md
+fastlane/test_output
 packages_cache
 .env.default
 gc_keys.json

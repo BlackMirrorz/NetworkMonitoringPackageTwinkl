@@ -2,9 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=xcode,macos,swift
 
 ### Fastlane ###
-Source/fastlane/report.xml
-Source/fastlane/README.md
-Source/fastlane/test_output
+fastlane/README.md
+fastlane/test_output
 packages_cache
 .env.default
 gc_keys.json
