@@ -62,6 +62,10 @@ lane :run_unit_tests do
     message_body: message_body
   )
   
+  require 'fileutils'
+  test_output_directory = "./test_output"
+  FileUtils.rm_rf(test_output_directory) if Dir.exist?(test_output_directory)
+
   if !didPassUnitTests
     UI.user_error!("💩 Tests Failed")
    end
