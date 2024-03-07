@@ -1,0 +1,29 @@
+#----------------------------------------
+# Twinkl Fastlane Pipeline SPM
+# Copyright Twinkl Limited 2004
+# Created By Josh Robbins (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
+#----------------------------------------
+
+# Set Development Platform
+default_platform(:ios)
+
+#----------------------------------------
+# Dependency Installation
+# Setup Base Dependencies
+#----------------------------------------
+
+# Setup Base Dependencies On Your Machine
+desc "☁️  Installs Base Dependencies For Our Devs."
+lane :setupBaseDependenciesOnMachine do
+  sh "chmod +x twinklIOSConfiguration.sh"
+  sh "./twinklIOSConfiguration.sh"
+  UI.success("🫠 Base Dependencies Configured.")
+end
+
+# Setup Base Dependencies On CI
+desc "☁️  Installs Base Dependencies For The CI."
+lane :setupBaseDependenciesCI do
+  sh "chmod +x twinklIOSConfigurationCI.sh"
+  sh "./twinklIOSConfigurationCI.sh"
+  UI.success("🫠 Base Dependencies Configured.")
+end
