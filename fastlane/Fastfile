@@ -18,16 +18,16 @@ PROJECT_NAME = 'NetworkMonitoringPackageTwinkl'
 # Setup Base Dependencies On Your Machine
 desc "☁️  Installs Base Dependencies For Our Devs."
 lane :setupBaseDependenciesOnMachine do
-  sh "chmod +x twinklIOSConfiguration.sh"
-  sh "./twinklIOSConfiguration.sh"
+  sh "chmod +x ./scripts/twinklIOSConfigurationSPM.sh" # Adjusted path
+  sh "./scripts/twinklIOSConfigurationSPM.sh" # Adjusted path
   UI.success("🫠 Base Dependencies Configured.")
 end
 
 # Setup Base Dependencies On CI
 desc "☁️  Installs Base Dependencies For The CI."
 lane :setupBaseDependenciesCI do
-  sh "chmod +x twinklIOSConfigurationCI.sh"
-  sh "./twinklIOSConfigurationCI.sh"
+  sh "chmod +x ./scripts/twinklIOSConfigurationCI-SPM.sh" # Adjusted path
+  sh "./scripts/twinklIOSConfigurationCI-SPM.sh" # Adjusted path
   UI.success("🫠 Base Dependencies Configured.")
 end
 
@@ -39,7 +39,7 @@ end
 desc "☁️ Runs Unit Tests"
 lane :run_unit_tests do
 
-  didPassUnitTests = twinkl_unit_tests(
+  didPassUnitTests = twinkl_unit_tests_spm(
     command: "test",
     simulator: "macosx"
   )
@@ -78,7 +78,7 @@ end
 desc "✉️  Post Notification"
 private_lane :post_notification do |options|
   twinkl_google_chat_message(
-    webhook_url: "https://chat.googleapis.com/v1/spaces/AAAAqGaGQ0k/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=HPz0OL5qyknfJs5izCn3aIJbD1E50U4yvYHgjOrZMCQ",
+    webhook_url: ENV['CI_WEBHOOK'],
     title: options[:title],
     subtitle: options[:subtitle],
     image_url: options[:image_url],

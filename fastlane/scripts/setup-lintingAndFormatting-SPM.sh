@@ -7,6 +7,8 @@
 
 echo "☁️  Twinkl Linting And Formatting Script Generation Running..."
 
+cd ..
+
 # Create The Hooks Directory Or Replace If Needed
 SWIFT_LINT_CONFIG=".swiftlint.yml"
 SWIFT_FORMAT_CONFIG=".swiftformat"

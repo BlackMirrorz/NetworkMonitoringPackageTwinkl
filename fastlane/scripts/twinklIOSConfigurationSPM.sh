@@ -119,28 +119,43 @@ echo "✅  FastLane Plugins Added Successfully."
 
 echo "Current directory is: $(pwd)"
 
+cd scripts
+
 # Make setup-git-hooks.sh Executable
-echo "🔧  Making setup-git.sh Executable..."
-chmod +x ./setup-git.sh
+echo "🔧  Making setup-git-SPM.sh Executable..."
+chmod +x ./setup-git-SPM.sh
 
 # Run The Script Setup-Git.sh
-echo "🔨  Running The Script Setup-Git.sh..."
-if ./setup-git.sh; then
-    echo "✅  Setup-Git-sh Executed Successfully."
+echo "🔨  Running The Script Setup-Git-SPM.sh..."
+if ./setup-git-SPM.sh; then
+    echo "✅  Setup-Git-SPM.sh Executed Successfully."
 else
     echo "❌  Failed To Run Setup-Git-Hooks.sh."
     exit 1
 fi
 
 # Make setup-lintingAndFormatting.sh Executable
-echo "🔧  Making setup-lintingAndFormatting.sh Executable..."
-chmod +x ./setup-lintingAndFormatting.sh
+echo "🔧  Making setup-lintingAndFormatting-SPM.sh Executable..."
+chmod +x ./setup-lintingAndFormatting-SPM.sh
 
 # Run The Script Setup-LintingAndFormatting.sh
-echo "🔨  Running The Script Setup-LintingAndFormatting.sh..."
-if ./setup-lintingAndFormatting.sh; then
-    echo "✅  Setup-LintingAndFormatting.sh Executed Successfully."
+echo "🔨  Running The Script Setup-LintingAndFormatting-SPM.sh..."
+if ./setup-lintingAndFormatting-SPM.sh; then
+    echo "✅  Setup-LintingAndFormatting-SPM.sh Executed Successfully."
 else
-    echo "❌  Failed To Run Setup-LintingAndFormatting.sh..."
+    echo "❌  Failed To Run Setup-LintingAndFormattingSPM.sh..."
+    exit 1
+fi
+
+# Make SetupEnvironmentVariables.sh Executable
+echo "🔧  Making setupEnvironmentVariables.sh Executable..."
+chmod +x ./setupEnvironmentVariables.sh
+
+# Run The Script SetupEnvironmentVariables.sh
+echo "🔨  Running The Script SetupEnvironmentVariablesSPM.sh..."
+if ./setupEnvironmentVariables.sh; then
+    echo "✅  SetupEnvironmentVariables Executed Successfully."
+else
+    echo "❌  Failed To Run SetupEnvironmentVariablesSPM.sh..."
     exit 1
 fi

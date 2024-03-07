@@ -37,7 +37,7 @@ else
     fi
 fi
 
-# 🌿 Install Mint To Ensure That We Lock Our Versions Of SwiftLint And SwiftFormat
+# Install Mint To Ensure That We Lock Our Versions Of SwiftLint And SwiftFormat
 if ! command -v mint &> /dev/null; then
     echo "🔍 Mint Is Not Installed. Installing Mint..."
     if ! brew install mint; then

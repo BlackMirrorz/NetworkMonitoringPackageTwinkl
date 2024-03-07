@@ -8,7 +8,7 @@
 echo "☁️  Twinkl Github Hook Running..."
 
 # Change Into The Parent Directory
-cd ..
+cd ../..
 
 # Create The Hooks Directory Or Replace If Needed
 GIT_HOOKS_DIR=".git/hooks"
@@ -112,7 +112,7 @@ cat > "$GIT_IGNORE_SOURCE" << 'EOF'
 
 ### Fastlane ###
 fastlane/report.xml
-astlane/README.md
+fastlane/README.md
 fastlane/test_output
 packages_cache
 .env.default

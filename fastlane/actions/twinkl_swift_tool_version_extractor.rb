@@ -5,7 +5,7 @@ module Fastlane
         SWIFT_TOOL_VERSION = :SWIFT_TOOL_VERSION
       end
 
-      # 🏃 Run The Action With Parameters
+      # Run The Action With Parameters
       def self.run(params)
         tool = params[:tool]
         unless ['lint', 'format'].include?(tool)
@@ -13,7 +13,7 @@ module Fastlane
           UI.user_error!("💩 Invalid Tool Specified. Please Specify 'Lint' For SwiftLint Or 'Format' For SwiftFormat ❌")
         end
 
-        # ℹ️ Display Tool Version And Executable Path
+        # Display Tool Version And Executable Path
         UI.message("🔍 Swift#{tool.capitalize} Version: #{self.swiftToolVersionFromFile(tool)}")
         UI.message("🔍 Swift#{tool.capitalize} Executable: #{self.swiftToolExecutable(tool)}")
         
