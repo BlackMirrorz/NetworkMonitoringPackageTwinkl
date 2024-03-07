@@ -81,7 +81,7 @@ jobs:
           
     - name: 🛠️ Run Install Script
       if: steps.cache-lintingAndFormatting.outputs.cache-hit != 'true'
-      run: bash fastlane/twinklIOSConfigurationCI-SPM.sh
+      run: bash fastlane/scripts/twinklIOSConfigurationCI-SPM.sh
       shell: bash
 
     - name: ✨ Linting & Formatting Code
