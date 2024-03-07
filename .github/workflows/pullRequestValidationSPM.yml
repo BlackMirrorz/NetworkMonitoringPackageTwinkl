@@ -1,0 +1,91 @@
+name: ☁️ Twinkl Pull Request Runner
+
+on:
+  pull_request: {}
+  workflow_dispatch: {}
+
+env:
+  PROJECT_NAME: NetworkMonitoringPackageTwinkl
+  AUTHORIZATION_FOR_WORKFLOWS: ${{ secrets.AUTHORIZATION_FOR_WORKFLOWS }}
+  CACHE_VERSION_LINT: twinklFormattingCache
+  CI_WEBHOOK: ${{ secrets.CI_WEBHOOK }}
+
+jobs:
+
+#---------------
+# Run Unit Tests
+# (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
+#---------------
+
+  unitTest:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+        name: 🔄 Checking Out Repository
+
+      - name: 🔐 Create .netrc for GitHub Access
+        run: |
+          cat << EOF > ~/.netrc
+          machine github.com
+          login user
+          password ${{ secrets.AUTHORIZATION_FOR_WORKFLOWS }}
+          machine api.github.com
+          login user
+          password ${{ secrets.AUTHORIZATION_FOR_WORKFLOWS }}
+          EOF
+          chmod 600 ~/.netrc
+
+      - name: 🔐 Setup Git Authentication for Private Repos
+        run: |
+          git config --global user.email "tweebot@twinkl.co.uk"
+          git config --global user.name "Tweebot"
+          git config --global --add safe.directory '*'
+          git config --global url."https://x-access-token:${{ secrets.AUTHORIZATION_FOR_WORKFLOWS }}@github.com/".insteadOf "https://github.com/"
+
+      - name: 🧪 Test Application
+        run: fastlane run_unit_tests
+        working-directory: fastlane
+        env:
+          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 1800
+          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
+          HAS_PACKAGES_CACHE_HIT: ${{ needs.resolveSPMDependencies.outputs.cache-hit }}
+
+#-------------------------
+# Run Linting & Formatting
+# (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
+#-------------------------
+
+  lintAndFormat:
+   runs-on: macos-14
+   steps:
+    - uses: actions/checkout@v4
+      name: 🔄 Checking Out Repository
+
+    - name: 🔒 Cache Swift Lint And Swift Format Dependencies
+      id: cache-lintingAndFormatting
+      uses: actions/cache@v4
+      with:
+          path: |
+            ~/.mint
+          key: ${{ runner.os }}-cache-lintingAndFormatting-${{ env.CACHE_VERSION_LINT }}-${{ hashFiles('**/twinklIOSConfigurationCI.sh') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-lintingAndFormatting-${{ env.CACHE_VERSION_LINT }}-
+     
+    - name: 📊  Determine Swift Lint And Swift FormatDependency Status
+      run: |
+          if [ "${{ steps.cache-lintingAndFormatting.outputs.cache-hit }}" == "true" ]; then
+            echo "✅ Linting & Formatting Cache Detected. Saving us some 🧀."
+          else
+            echo "🐌 Dependencies Not Cached So Installing Them."
+          fi
+          
+    - name: 🛠️ Run Install Script
+      if: steps.cache-lintingAndFormatting.outputs.cache-hit != 'true'
+      run: bash Source/fastlane/twinklIOSConfigurationCI.sh
+      shell: bash
+
+    - name: ✨ Linting & Formatting Code
+      run: |
+        fastlane lint_and_format_project --verbose
+        echo "🔥 Formatting & Linting Completed 🤣"
+      working-directory: fastlane
