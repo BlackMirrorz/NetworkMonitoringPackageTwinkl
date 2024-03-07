@@ -8,7 +8,7 @@
 default_platform(:ios)
 
 # Create Global Mutable Variables
-PACKAGE_NAME = 'NetworkMonitoringPackageTwinkl-Package'
+PROJECT_NAME = 'NetworkMonitoringPackageTwinkl'
 
 #----------------------------------------
 # Dependency Installation
@@ -36,13 +36,48 @@ end
 # Runs Unit Tests
 #----------------
 
-desc "☁️  Runs Unit Tests"
+desc "☁️ Runs Unit Tests"
 lane :run_unit_tests do
 
- spm(
-  command: "test",
-  simulator: "macosx"
-)
+  didPassUnitTests = twinkl_unit_tests(
+    command: "test",
+    simulator: "macosx"
+  )
 
+  failed_image_url = "https://octodex.github.com/images/original.png"
+  passed_image_url = "https://octodex.github.com/images/class-act.png"
+  
+  image_url = didPassUnitTests ? passed_image_url : failed_image_url
     
+  tests_status = didPassUnitTests ?  "🏆 Unit Tests Passed 🏆" : "⚠️ Unit Tests Failed ⚠️"
+  message_body =  didPassUnitTests ? " 🛠️ Good Work!" : "🆘 Please Check The Logs!"
+  
+
+  project_name = ENV['PROJECT_NAME'] || PROJECT_NAME
+   
+  post_notification(
+    title: "#{project_name} Unit Tests",
+    subtitle: tests_status,
+    image_url: image_url,
+    message_body: message_body
+  )
+  
+  if !didPassUnitTests
+    UI.user_error!("💩 Tests Failed")
+   end
+end
+
+#---------------------------
+# Messaging
+#---------------------------
+
+desc "✉️  Post Notification"
+private_lane :post_notification do |options|
+  twinkl_google_chat_message(
+    webhook_url: "https://chat.googleapis.com/v1/spaces/AAAAqGaGQ0k/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=HPz0OL5qyknfJs5izCn3aIJbD1E50U4yvYHgjOrZMCQ",
+    title: options[:title],
+    subtitle: options[:subtitle],
+    image_url: options[:image_url],
+    message_body: options[:message_body]
+  )
 end
