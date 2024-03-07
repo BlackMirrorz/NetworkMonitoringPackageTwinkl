@@ -10,6 +10,19 @@ import Network
 /// Struct representing a network path with its status
 public struct NetworkPath {
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   var status: NWPath.Status
 }
 
