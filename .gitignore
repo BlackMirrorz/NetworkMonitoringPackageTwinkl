@@ -2,7 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=xcode,macos,swift
 
 ### Fastlane ###
-fastlane/README.md
+fastlane/report.xml
+astlane/README.md
 fastlane/test_output
 packages_cache
 .env.default
