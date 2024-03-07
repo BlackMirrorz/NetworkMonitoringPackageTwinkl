@@ -7,7 +7,7 @@ on:
 env:
   PROJECT_NAME: NetworkMonitoringPackageTwinkl
   AUTHORIZATION_FOR_WORKFLOWS: ${{ secrets.AUTHORIZATION_FOR_WORKFLOWS }}
-  CACHE_VERSION_LINT: twinklFormattingCache
+  CACHE_VERSION_LINT: twinklFormattingCache-NetworkMonitoringPackageTwinkl
   CI_WEBHOOK: ${{ secrets.CI_WEBHOOK }}
 
 jobs:
@@ -48,7 +48,6 @@ jobs:
         env:
           FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 1800
           FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
-          HAS_PACKAGES_CACHE_HIT: ${{ needs.resolveSPMDependencies.outputs.cache-hit }}
 
 #-------------------------
 # Run Linting & Formatting
@@ -67,7 +66,7 @@ jobs:
       with:
           path: |
             ~/.mint
-          key: ${{ runner.os }}-cache-lintingAndFormatting-${{ env.CACHE_VERSION_LINT }}-${{ hashFiles('**/twinklIOSConfigurationCI.sh') }}
+          key: ${{ runner.os }}-cache-lintingAndFormatting-${{ env.CACHE_VERSION_LINT }}-${{ hashFiles('**/twinklIOSConfigurationCI-SPM.sh') }}
           restore-keys: |
             ${{ runner.os }}-cache-lintingAndFormatting-${{ env.CACHE_VERSION_LINT }}-
      
@@ -81,7 +80,7 @@ jobs:
           
     - name: 🛠️ Run Install Script
       if: steps.cache-lintingAndFormatting.outputs.cache-hit != 'true'
-      run: bash Source/fastlane/twinklIOSConfigurationCI.sh
+      run: bash fastlane/scripts/twinklIOSConfigurationCI-SPM.sh
       shell: bash
 
     - name: ✨ Linting & Formatting Code
