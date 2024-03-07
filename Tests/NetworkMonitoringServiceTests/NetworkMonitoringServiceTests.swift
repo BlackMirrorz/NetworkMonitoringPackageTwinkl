@@ -15,11 +15,12 @@ class NetworkMonitoringServiceTests: XCTestCase {
 
   // MARK: - Tests
 
-  func  testFail() {
-    let a = 1
-    let b = 2
-    XCTAssertEqual(a, b)
+  func testFail() {
+    let aaa = 1
+    let bbb = 2
+    XCTAssertEqual(aaa, bbb)
   }
+
   func testConnectedState() {
     let mockMonitor = MockNetworkPathMonitor()
     let service = NetworkMonitoringService(pathMonitor: mockMonitor)
