@@ -52,7 +52,6 @@ lane :run_unit_tests do
   tests_status = didPassUnitTests ?  "🏆 Unit Tests Passed 🏆" : "⚠️ Unit Tests Failed ⚠️"
   message_body =  didPassUnitTests ? " 🛠️ Good Work!" : "🆘 Please Check The Logs!"
   
-
   project_name = ENV['PROJECT_NAME'] || PROJECT_NAME
    
   post_notification(
@@ -69,6 +68,66 @@ lane :run_unit_tests do
   if !didPassUnitTests
     UI.user_error!("💩 Tests Failed")
    end
+end
+
+#-----------------------------
+# Linting & Code Formatting
+# Runs SwiftLint & SwiftFormat
+#-----------------------------
+
+desc "☁️  Lints & Formats The Current Project"
+lane :lint_and_format_project do
+   lint_project
+   format_project
+   UI.success("✅ Code Standardisation Completed 🫠")
+end
+
+#---------------
+# Linting
+# Runs SwiftLint
+#---------------
+
+desc "☁️  Lints the current project"
+private_lane :lint_project do
+
+ swift_tool_info = twinkl_swift_tool_version_extractor(tool: "lint")
+  
+ executable_path = swift_tool_info[:swifttool_executable]
+ UI.success("🫠 Executable Extrapolated #{executable_path}")
+  
+ swiftlint(
+    mode: :lint,
+    executable: executable_path,
+    config_file: "fastlane/.swiftlint.yml",
+    raise_if_swiftlint_error: true,
+    ignore_exit_status: false
+ )
+  
+ UI.success("✅ Linting Project Completed 🫠")
+end
+
+#-----------------
+# Formatting
+# Runs SwiftFormat
+#-----------------
+
+desc "Formats the current project"
+private_lane :format_project do
+ 
+ swift_tool_info = twinkl_swift_tool_version_extractor(tool: "format")
+  
+ executable_path = swift_tool_info[:swifttool_executable]
+ UI.success("🫠 Executable Extrapolated #{executable_path}")
+
+  swiftformat(
+    executable: executable_path,
+    swiftversion: "5",
+    config: "fastlane/.swiftformat",
+    dryrun: true,
+    lint: true
+  )
+
+  UI.success("✅ Formatting Project Completed 🫠")
 end
 
 #---------------------------
