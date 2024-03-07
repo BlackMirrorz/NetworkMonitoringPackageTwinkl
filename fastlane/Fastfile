@@ -7,6 +7,9 @@
 # Set Development Platform
 default_platform(:ios)
 
+# Create Global Mutable Variables
+PACKAGE_NAME = 'NetworkMonitoringPackageTwinkl-Package'
+
 #----------------------------------------
 # Dependency Installation
 # Setup Base Dependencies
@@ -26,4 +29,20 @@ lane :setupBaseDependenciesCI do
   sh "chmod +x twinklIOSConfigurationCI.sh"
   sh "./twinklIOSConfigurationCI.sh"
   UI.success("🫠 Base Dependencies Configured.")
+end
+
+#----------------
+#  Tests
+# Runs Unit Tests
+#----------------
+
+desc "☁️  Runs Unit Tests"
+lane :run_unit_tests do
+
+ spm(
+  command: "test",
+  simulator: "macosx"
+)
+
+    
 end

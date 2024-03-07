@@ -3,7 +3,7 @@
 
 ### Fastlane ###
 fastlane/report.xml
-astlane/README.md
+fastlane/README.md
 fastlane/test_output
 packages_cache
 .env.default
