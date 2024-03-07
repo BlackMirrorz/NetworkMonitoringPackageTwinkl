@@ -48,7 +48,6 @@ jobs:
         env:
           FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 1800
           FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
-          HAS_PACKAGES_CACHE_HIT: ${{ needs.resolveSPMDependencies.outputs.cache-hit }}
 
 #-------------------------
 # Run Linting & Formatting
